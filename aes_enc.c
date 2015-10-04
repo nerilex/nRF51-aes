@@ -83,7 +83,8 @@ static void key_xor(new_aes_state_t *x, const uint8_t* key) {
     }
 }
 
-static void convert(void *dest, const void *src) {
+void convert(void *dest, const void *src);
+/*{
     uint8_t i, j;
     for (i = 0; i < 4; ++i) {
         for (j = 0; j < 4; ++j) {
@@ -91,6 +92,7 @@ static void convert(void *dest, const void *src) {
         }
     }
 }
+*/
 
 static
 void aes_enc_round(new_aes_state_t* state, const aes_roundkey_t* k){
