@@ -13,8 +13,6 @@
 
 #include "aes.h"
 
-extern void initialise_monitor_handles(void);
-
 /**
  * \brief dumps the contents of a buffer to the console
  */
@@ -65,9 +63,6 @@ void aes_test(void) {
 int main()
 {
 
-//    initialise_monitor_handles();
-
-    printf("hello world!\n");
     aes_test();
     _Exit(EXIT_SUCCESS);
     for (;;)
