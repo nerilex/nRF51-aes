@@ -97,9 +97,27 @@ void convert(void *dest, const void *src);
 }
 */
 
+void mixColumns(new_aes_state_t *x); /*{
+    uint32_t tm, tmp, v;
+    v = x->a[0];
+    tmp = x->a[0] ^ x->a[1] ^ x->a[2] ^ x->a[3];
+
+    tm = qxtimes(x->a[0] ^ x->a[1]);
+    x->a[0] ^= tm ^ tmp;
+
+    tm = qxtimes(x->a[1] ^ x->a[2]);
+    x->a[1] ^= tm ^ tmp;
+
+    tm = qxtimes(x->a[2] ^ x->a[3]);
+    x->a[2] ^= tm ^ tmp;
+
+    tm = qxtimes(x->a[3] ^ v);
+    x->a[3] ^= tm ^ tmp;
+}
+*/
+
 static
 void aes_enc_round(new_aes_state_t* state, const aes_roundkey_t* k){
-	uint32_t tm, tmp, v;
     /* subBytes */
 	printf("pre subbytes\n");
 	dump_state(state);
@@ -113,21 +131,7 @@ void aes_enc_round(new_aes_state_t* state, const aes_roundkey_t* k){
 	/* mixColums */
     printf("pre mixcolums\n");
     dump_state(state);
-    v = state->a[0];
-    tmp = state->a[0] ^ state->a[1] ^ state->a[2] ^ state->a[3];
-
-    tm = qxtimes(state->a[0] ^ state->a[1]);
-    state->a[0] ^= tm ^ tmp;
-
-    tm = qxtimes(state->a[1] ^ state->a[2]);
-    state->a[1] ^= tm ^ tmp;
-
-    tm = qxtimes(state->a[2] ^ state->a[3]);
-    state->a[2] ^= tm ^ tmp;
-
-    tm = qxtimes(state->a[3] ^ v);
-    state->a[3] ^= tm ^ tmp;
-
+    mixColumns(state);
     /* addKey */
     printf("pre keyadd\n");
     dump_state(state);

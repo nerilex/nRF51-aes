@@ -24,6 +24,7 @@
 
 .global qxtimes
 qxtimes:
+	push {r1, r2, lr}
 	ldr r2, =0x80808080
 	ands r2, r2, r0
 	ldr r1, =0xfefefefe
@@ -37,7 +38,7 @@ qxtimes:
 	eors r0, r0, r2
 	lsrs r2, r2, #1
 	eors r0, r0, r2
-	bx lr
+	pop {r1, r2, pc}
 
 
 .global sbox
@@ -96,3 +97,65 @@ key_xor:
 	subs r4, r4, #1
 	bne 1b
 	pop {r4, pc}
+
+/*
+void mixColums(new_aes_state_t *x){
+    uint32_t tm, tmp, v;
+    v = x->a[0];
+    tmp = x->a[0] ^ x->a[1] ^ x->a[2] ^ x->a[3];
+
+    tm = qxtimes(x->a[0] ^ x->a[1]);
+    x->a[0] ^= tm ^ tmp;
+
+    tm = qxtimes(x->a[1] ^ x->a[2]);
+    x->a[1] ^= tm ^ tmp;
+
+    tm = qxtimes(x->a[2] ^ x->a[3]);
+    x->a[2] ^= tm ^ tmp;
+
+    tm = qxtimes(x->a[3] ^ v);
+    x->a[3] ^= tm ^ tmp;
+}
+*/
+tm  .req r0
+tmp .req r1
+z   .req r2
+.global mixColumns
+mixColumns:
+	push {r0, v1, v2, v3, v4, lr}
+	ldm r0!, {v1, v2, v3, v4}
+	movs z, v1
+	movs tmp, v1
+	eors tmp, tmp, v2
+	movs tm, tmp
+	eors tmp, tmp, v3
+	eors tmp, tmp, v4
+
+	bl qxtimes
+	eors v1, v1, tm
+	eors v1, v1, tmp
+
+	movs tm, v2
+	eors tm, v3
+	bl qxtimes
+	eors v2, v2, tm
+	eors v2, v2, tmp
+
+	movs tm, v3
+	eors tm, v4
+	bl qxtimes
+	eors v3, v3, tm
+	eors v3, v3, tmp
+
+	movs tm, v4
+	eors tm, z
+	bl qxtimes
+	eors v4, v4, tm
+	eors v4, v4, tmp
+
+	pop {r0}
+	stm r0!, {v1, v2, v3, v4}
+	pop {v1, v2, v3, v4, pc}
+
+
+
