@@ -58,12 +58,13 @@ static void dump_state(new_aes_state_t *x) {
 #define printf(...)
 #define puts(a)
 
-static uint32_t qxtimes(uint32_t a) {
+static uint32_t qxtimes(uint32_t a);
+/*{
     uint32_t b = a & 0x80808080;
     uint32_t r = (a << 1) & 0xfefefefe;
     r ^= (b >> 7) ^ (b >> 6) ^ (b >> 4) ^ (b >> 3);
     return r;
-}
+}*/
 
 static void sbox(new_aes_state_t *x) {
     uint8_t i;

@@ -19,6 +19,7 @@ OPENOCD_CFG = openocd.cfg
 #
 SRCS = gcc_startup_nrf51.S system_nrf51.c main.c memxor.c
 SRCS += aes_enc.c aes_dec.c aes_sbox.c aes_invsbox.c aes_keyschedule.c gf256mul.c
+SRCS += aes_enc-asm.S
 SRCS += aes128_enc.c aes128_dec.c
 SRCS += aes192_enc.c aes192_dec.c
 SRCS += aes256_enc.c aes256_dec.c
@@ -58,6 +59,12 @@ all: $(OBJS) $(HEX)
 
 %.s: %.c
 	$(CC) $(CFLAGS) -c -Wa,-adghlms -g $< > $@
+
+%.pdf: %.ps
+	ps2pdf $<
+	
+%.ps: %.s
+	enscript -B -r -l -f Courier8 -o $@ $<
 
 $(ELF): $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(ELF)
