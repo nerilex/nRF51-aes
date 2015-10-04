@@ -55,7 +55,6 @@ sbox:
 .global convert
 convert:
 	ldr r3, =4
-
 1:
 	ldrb r2, [r1, #0]
 	strb r2, [r0, #0]
@@ -70,3 +69,30 @@ convert:
 	subs r3, r3, #1
 	bne 1b
 	bx lr
+
+.global key_xor
+key_xor:
+	push {r4, lr}
+	ldr r4, =4
+1:
+	ldrb r2, [r1, #0]
+	ldrb r3, [r0, #0]
+	eors r2, r2, r3
+	strb r2, [r0, #0]
+	ldrb r2, [r1, #1]
+	ldrb r3, [r0, #4]
+	eors r2, r2, r3
+	strb r2, [r0, #4]
+	ldrb r2, [r1, #2]
+	ldrb r3, [r0, #8]
+	eors r2, r2, r3
+	strb r2, [r0, #8]
+	ldrb r2, [r1, #3]
+	ldrb r3, [r0, #12]
+	eors r2, r2, r3
+	strb r2, [r0, #12]
+	adds r1, r1, #4
+	adds r0, r0, #1
+	subs r4, r4, #1
+	bne 1b
+	pop {r4, pc}

@@ -74,7 +74,9 @@ void sbox(new_aes_state_t *x);
     }
 }
 */
-static void key_xor(new_aes_state_t *x, const uint8_t* key) {
+void key_xor(new_aes_state_t *x, const uint8_t* key);
+/*
+ {
     uint8_t i, j;
     for (i = 0; i < 4; ++i) {
         for (j = 0; j < 4; ++j) {
@@ -82,6 +84,7 @@ static void key_xor(new_aes_state_t *x, const uint8_t* key) {
         }
     }
 }
+*/
 
 void convert(void *dest, const void *src);
 /*{
