@@ -116,20 +116,21 @@ void mixColumns(new_aes_state_t *x); /*{
 }
 */
 
-static
-void aes_enc_round(new_aes_state_t* state, const aes_roundkey_t* k){
-    /* subBytes */
+
+void aes_enc_round(new_aes_state_t* state, const aes_roundkey_t* k);
+#if 0
+{
+        /* subBytes */
+
 	printf("pre subbytes\n");
 	dump_state(state);
 	sbox(state);
 	/* shiftRows */
-/*
 	printf("pre shiftrows\n");
     dump_state(state);
 	state->a[1] = ROTR32(state->a[1], 8);
     state->a[2] = ROTR32(state->a[2], 16);
     state->a[3] = ROTR32(state->a[3], 24);
-*/
 	/* mixColums */
     printf("pre mixcolums\n");
     dump_state(state);
@@ -141,6 +142,7 @@ void aes_enc_round(new_aes_state_t* state, const aes_roundkey_t* k){
     printf("fin\n");
     dump_state(state);
 }
+#endif
 
 
 static

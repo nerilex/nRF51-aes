@@ -120,9 +120,10 @@ void mixColums(new_aes_state_t *x){
 tm  .req r0
 tmp .req r1
 z   .req r2
-.global mixColumns
-mixColumns:
-	push {r0, v1, v2, v3, v4, lr}
+.global aes_enc_round
+aes_enc_round:
+	push {r0, r1, v1, v2, v3, v4, lr}
+	bl sbox
 	ldm r0!, {v1, v2, v3, v4}
 	ldr r0, =8
 	rors v2, v2, r0
@@ -161,7 +162,10 @@ mixColumns:
 
 	pop {r0}
 	stm r0!, {v1, v2, v3, v4}
-	pop {v1, v2, v3, v4, pc}
+	subs r0, r0, #16
+	pop {r1, v1, v2, v3, v4}
+	bl key_xor
+	pop {pc}
 
 
 
