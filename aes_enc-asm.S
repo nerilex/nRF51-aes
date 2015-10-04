@@ -124,6 +124,12 @@ z   .req r2
 mixColumns:
 	push {r0, v1, v2, v3, v4, lr}
 	ldm r0!, {v1, v2, v3, v4}
+	ldr r0, =8
+	rors v2, v2, r0
+	adds r0, r0, #8
+	rors v3, v3, r0
+	adds r0, r0, #8
+	rors v4, v4, r0
 	movs z, v1
 	movs tmp, v1
 	eors tmp, tmp, v2
