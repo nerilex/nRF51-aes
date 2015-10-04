@@ -58,7 +58,7 @@ static void dump_state(new_aes_state_t *x) {
 #define printf(...)
 #define puts(a)
 
-static uint32_t qxtimes(uint32_t a);
+uint32_t qxtimes(uint32_t a);
 /*{
     uint32_t b = a & 0x80808080;
     uint32_t r = (a << 1) & 0xfefefefe;
@@ -66,13 +66,14 @@ static uint32_t qxtimes(uint32_t a);
     return r;
 }*/
 
-static void sbox(new_aes_state_t *x) {
+void sbox(new_aes_state_t *x);
+/*{
     uint8_t i;
     for (i = 0; i < 16; ++i) {
         ((uint8_t*)x->a)[i] = aes_sbox[((uint8_t*)x->a)[i]];
     }
 }
-
+*/
 static void key_xor(new_aes_state_t *x, const uint8_t* key) {
     uint8_t i, j;
     for (i = 0; i < 4; ++i) {

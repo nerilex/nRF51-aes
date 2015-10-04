@@ -38,3 +38,16 @@ qxtimes:
 	lsrs r2, r2, #1
 	eors r0, r0, r2
 	bx lr
+
+
+.global sbox
+sbox:
+	ldr r1, =aes_sbox
+	ldr r2, =16
+1:
+	subs r2, r2, #1
+	ldrb r3, [r0, r2]
+	ldrb r3, [r1, r3]
+	strb r3, [r0, r2]
+	bne 1b
+	bx lr
